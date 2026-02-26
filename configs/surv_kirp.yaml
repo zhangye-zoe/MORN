@@ -1,0 +1,73 @@
+# =========================
+# Task & Data
+# =========================
+task: surv
+data_dir: /data5/zhangye/morn/data/processed/KIRP_hgt_dataset
+graph_file: KIRP_graph.bin
+label_csv: /data5/zhangye/morn/data/label/KIRP_survival_labels.csv
+
+fold_glob: "splits_*"
+split_pt_suffix: "_split.pt"
+meta_json_suffix: "_meta.json"
+
+# (optional) if your meta json does NOT include pathway_maps_pt
+# place pathway_maps.pt under data_dir, or set meta["pathway_maps_pt"] in preprocessing
+# This config does not need an explicit path unless your code supports it.
+
+# =========================
+# Model
+# =========================
+target_ntype: patient
+
+n_epoch: 100
+n_hid: 256
+n_layers: 2            # will be used as n_layers_omics fallback
+# If you want explicit omics/cross layer split (new MORN):
+# n_layers_omics: 2
+# n_layers_cross: 1
+n_heads: 4
+dropout: 0.2           # add if you want (your model supports it)
+
+# =========================
+# Optimization
+# =========================
+clip: 1.0
+max_lr: 1e-3
+weight_decay: 1e-4
+eval_every: 5
+alpha_surv: 0.0
+
+# =========================
+# Graph edge weights
+# =========================
+edge_weight_key: w
+edge_weight_mode: mul_attn
+
+# =========================
+# Device & Seed
+# =========================
+device: cuda:0
+seed: 2026
+
+# =========================
+# Contrastive Learning (Pathway-guided)
+# =========================
+# Turn on/off by setting lambda_cl
+lambda_cl: 0.1                 # 0 -> disable CL
+cl_temperature: 0.1
+cl_pathways_per_step: 128
+cl_min_genes_per_pathway: 3    # 推荐先用 1~3，避免 CL 一直 0
+cl_proj_dim: 128
+
+# =========================
+# Output / Debug
+# =========================
+out_dir: null
+
+dump_attn: 1
+dump_attn_at: best
+dump_dirname: attn_dump
+save_edge_w_in_dump: 1
+
+# Optional: save final model weights
+save_model: 0

@@ -1,0 +1,34 @@
+dataset: LUSC
+data_root: /data5/zhangye/morn/data/processed
+label_root: /data5/zhangye/morn/data/label
+
+# 如果你的 processed 数据目录不是默认 <data_root>/<DATASET>_hgt_dataset，就显式写：
+data_dir: /data5/zhangye/morn/data/processed/LUSC_hgt_dataset
+
+graph_file: LUSC_graph.bin
+label_csv: /data5/zhangye/morn/data/label/LUSC_survival_labels.csv
+
+fold_glob: "splits_*"
+split_pt_suffix: "_split.pt"
+meta_json_suffix: "_meta.json"
+
+target_ntype: patient
+n_epoch: 100
+n_hid: 256
+n_layers: 2
+n_heads: 4
+max_lr: 1e-3
+weight_decay: 0.0
+eval_every: 5
+alpha_surv: 0.0
+
+edge_weight_key: w
+edge_weight_mode: mul_attn
+
+device: cuda:0
+seed: 2026
+
+dump_attn: 1
+dump_attn_at: best
+dump_dirname: attn_dump
+save_edge_w_in_dump: 1
