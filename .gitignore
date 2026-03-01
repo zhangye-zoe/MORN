@@ -1,1 +1,7 @@
+# Folder
 data/
+unuse/
+attn_compare_out_v2
+
+# Files
+viz_patient.py
